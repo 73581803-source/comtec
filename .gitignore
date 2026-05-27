@@ -2,6 +2,19 @@
 node_modules/
 **/node_modules/
 
+# Python
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+venv/
+**/venv/
+.venv/
+**/.venv/
+dist/
+build/
+*.spec
+
 # Base de datos local (en producción Render usará su disco)
 backend/db/*.db
 backend/db/*.db-journal
