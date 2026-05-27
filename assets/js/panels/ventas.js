@@ -92,8 +92,9 @@
     `).join('');
     const user = window.ComTec.Auth.user();
     const puedeAnular = user.role === 'admin' && sale.estado !== 'anulada';
+    const tipoLbl = { boleta: 'Boleta', proforma: 'Proforma', nota_venta: 'Nota interna' }[sale.tipo || 'boleta'] || 'Documento';
     modal({
-      title: `Boleta ${sale.boleta_numero}`,
+      title: `${tipoLbl} ${sale.boleta_numero}`,
       html: `
         <div class="form-grid">
           <div><strong>Cliente:</strong> ${sale.cliente_nombre} ${sale.cliente_dni ? '· '+sale.cliente_dni : ''}</div>
@@ -106,9 +107,10 @@
           <div class="items-total"><span>IGV (18%)</span><span>${fmt.money(sale.igv)}</span></div>
           <div class="items-total total"><span>Total</span><span>${fmt.money(sale.total)}</span></div>
         </div>`,
-      footer: puedeAnular
-        ? `<button class="btn btn-danger" id="btn-anular">Anular venta</button><button class="btn btn-primary" id="btn-cerrar">Cerrar</button>`
-        : `<button class="btn btn-primary" id="btn-cerrar">Cerrar</button>`,
+      footer: `
+        ${puedeAnular ? '<button class="btn btn-danger" id="btn-anular">Anular</button>' : ''}
+        <button class="btn btn-cyan" id="btn-pdf">📄 Ver PDF</button>
+        <button class="btn btn-primary" id="btn-cerrar">Cerrar</button>`,
       onMount: (wrap, close) => {
         wrap.querySelector('#btn-cerrar').onclick = close;
         const btnA = wrap.querySelector('#btn-anular');
@@ -116,6 +118,27 @@
           if (!window.ComTec.confirm('¿Anular esta venta? Se devolverá el stock.')) return;
           try { await API.post('/api/sales/' + id + '/anular'); toast('Venta anulada', 'success'); close(); recargar(); }
           catch (e) { toast(e.message, 'error'); }
+        };
+        wrap.querySelector('#btn-pdf').onclick = async () => {
+          const btn = wrap.querySelector('#btn-pdf');
+          btn.disabled = true; btn.textContent = 'Generando…';
+          try {
+            const res = await fetch('/api/pdf/sale/' + id, {
+              headers: { 'Authorization': 'Bearer ' + window.ComTec.Auth.token() }
+            });
+            if (!res.ok) {
+              const err = await res.json().catch(() => ({}));
+              throw new Error(err.error || ('HTTP ' + res.status));
+            }
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+            setTimeout(() => URL.revokeObjectURL(url), 60000);
+          } catch (e) {
+            toast('Error generando PDF: ' + e.message, 'error');
+          } finally {
+            btn.disabled = false; btn.textContent = '📄 Ver PDF';
+          }
         };
       }
     });
