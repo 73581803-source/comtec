@@ -1,0 +1,16 @@
+{
+  "api_url": "https://comtec-ds64.onrender.com",
+  "empresa": {
+    "nombre": "ComTec",
+    "lema": "Tu tienda de tecnología en Huancayo",
+    "ruc": "20XXXXXXXXX",
+    "direccion": "Av. Real 123, Huancayo - Junín",
+    "telefono": "964 000 000",
+    "email": "ventas@comtec.pe",
+    "web": "https://comtec-ds64.onrender.com"
+  },
+  "pdf": {
+    "validez_proforma_dias": 7,
+    "carpeta_salida": ""
+  }
+}

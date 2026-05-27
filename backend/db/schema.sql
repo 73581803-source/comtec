@@ -47,7 +47,9 @@ CREATE TABLE IF NOT EXISTS components_featured (
 CREATE TABLE IF NOT EXISTS sales (
   id             INTEGER PRIMARY KEY AUTOINCREMENT,
   boleta_numero  TEXT UNIQUE,
+  tipo           TEXT NOT NULL DEFAULT 'boleta',   -- boleta | proforma | nota_venta
   fecha          TEXT NOT NULL DEFAULT (datetime('now')),
+  valido_hasta   TEXT,                              -- solo para proforma
   vendedor_id    INTEGER NOT NULL,
   cliente_nombre TEXT NOT NULL,
   cliente_dni    TEXT,
@@ -60,6 +62,7 @@ CREATE TABLE IF NOT EXISTS sales (
   notas          TEXT,
   FOREIGN KEY (vendedor_id) REFERENCES users(id)
 );
+-- idx_sales_tipo se crea en database.js después de la migración ADD COLUMN
 
 CREATE INDEX IF NOT EXISTS idx_sales_fecha ON sales(fecha);
 CREATE INDEX IF NOT EXISTS idx_sales_vendedor ON sales(vendedor_id);
@@ -72,6 +75,7 @@ CREATE TABLE IF NOT EXISTS sale_items (
   cantidad     INTEGER NOT NULL DEFAULT 1,
   precio_unit  REAL NOT NULL,
   subtotal     REAL NOT NULL,
+  es_externo   INTEGER NOT NULL DEFAULT 0,    -- 1 = de otro distribuidor (invisible al cliente)
   FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE,
   FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE SET NULL
 );

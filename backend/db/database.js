@@ -15,6 +15,22 @@ if (fs.existsSync(schemaPath)) {
   raw.exec(fs.readFileSync(schemaPath, 'utf8'));
 }
 
+// ---- Migraciones idempotentes (para bases creadas antes de cambios) ----
+function ensureColumn(table, column, definition) {
+  const cols = raw.prepare(`PRAGMA table_info(${table})`).all();
+  if (!cols.some(c => c.name === column)) {
+    raw.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+  }
+}
+try {
+  ensureColumn('sales',      'tipo',         "TEXT NOT NULL DEFAULT 'boleta'");
+  ensureColumn('sales',      'valido_hasta', "TEXT");
+  ensureColumn('sale_items', 'es_externo',   "INTEGER NOT NULL DEFAULT 0");
+  raw.exec('CREATE INDEX IF NOT EXISTS idx_sales_tipo ON sales(tipo)');
+} catch (e) {
+  console.warn('[db] migración:', e.message);
+}
+
 function toNum(v) { return typeof v === 'bigint' ? Number(v) : v; }
 
 function wrapStmt(stmt) {
