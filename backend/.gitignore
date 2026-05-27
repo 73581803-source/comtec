@@ -1,0 +1,5 @@
+node_modules/
+db/comtec.db
+db/comtec.db-journal
+.env
+*.log

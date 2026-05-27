@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ComTec · Tienda de Tecnología — Laptops, PC, Impresoras y Componentes</title>
+  <meta name="description" content="ComTec — Tienda de computadoras, laptops, impresoras y componentes en Huancayo. Productos originales con garantía. HP, Dell, Lenovo, Asus, Intel, AMD, Nvidia y más." />
+  <link rel="icon" type="image/jpeg" href="images/logo.jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="header">
+  <div class="header-top">
+    <div class="container">
+      <span>📍 Real Plaza, Huancayo — Lun a Sáb 9:00 - 20:00</span>
+      <div>
+        <a href="tel:+51964123456">📞 +51 964 123 456</a>
+        <a href="mailto:ventas@comtec.pe">✉ ventas@comtec.pe</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="header-main">
+      <a href="index.html" class="logo-wrap" aria-label="ComTec inicio">
+        <div class="logo-clip">
+          <img src="images/logo.jpeg" alt="ComTec" />
+        </div>
+      </a>
+
+      <form class="search-bar" onsubmit="event.preventDefault()">
+        <input type="search" placeholder="Buscar laptops, PCs, impresoras, componentes…" aria-label="Buscar" />
+        <button type="submit" aria-label="Buscar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M21 21l-4.3-4.3" />
+          </svg>
+        </button>
+      </form>
+
+      <div class="header-actions">
+        <a href="login.html" class="icon-btn" aria-label="Ingresar al panel" title="Ingresar al panel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </a>
+        <a href="#" class="icon-btn" aria-label="Favoritos" title="Favoritos">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+        </a>
+        <a href="#" class="icon-btn" aria-label="Carrito" title="Carrito">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+            <path d="M3 6h18M16 10a4 4 0 0 1-8 0" />
+          </svg>
+          <span class="count" id="cartCount">0</span>
+        </a>
+        <button class="menu-btn" id="menuBtn" aria-label="Menú">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav" id="navMenu">
+    <div class="container">
+      <ul>
+        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="catalogo.html">Catálogo</a></li>
+        <li><a href="catalogo.html?cat=laptops">Laptops</a></li>
+        <li><a href="catalogo.html?cat=desktops">Computadoras</a></li>
+        <li><a href="catalogo.html?cat=impresoras">Impresoras</a></li>
+        <li><a href="catalogo.html?cat=componentes">Componentes</a></li>
+        <li><a href="catalogo.html?cat=accesorios">Accesorios</a></li>
+        <li><a href="#contacto">Servicio Técnico</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-text">
+      <span class="eyebrow">Hasta 25% OFF · Liquidación de inventario</span>
+      <h1>Equipa tu mundo con la <span>mejor tecnología</span></h1>
+      <p>
+        Laptops, PCs, impresoras y componentes originales — HP, Dell, Lenovo,
+        Asus, Apple, Intel, AMD, Nvidia y más. Garantía real y soporte técnico
+        especializado en Huancayo.
+      </p>
+      <div class="cta-row">
+        <a href="#ofertas" class="btn btn-primary">
+          Ver ofertas
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="catalogo.html" class="btn btn-outline">Ir al catálogo</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="num">10+</div><div class="lbl">Años de experiencia</div></div>
+        <div><div class="num">25k+</div><div class="lbl">Clientes felices</div></div>
+        <div><div class="num">100%</div><div class="lbl">Productos originales</div></div>
+      </div>
+    </div>
+
+    <article class="hero-card">
+      <span class="badge badge-oferta">-15% Oferta</span>
+      <img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?auto=format&fit=crop&w=900&q=80" alt="Laptop gamer Lenovo IdeaPad" />
+      <h3>Lenovo IdeaPad Gaming 3</h3>
+      <p class="specs">Ryzen 7 7735HS · 16GB DDR5 · RTX 4050 6GB · SSD NVMe 512GB · 15.6" 144Hz</p>
+      <div class="price-row">
+        <span class="old">S/ 4,899</span>
+        <span class="new">S/ 4,299</span>
+      </div>
+      <a href="#" class="btn btn-cyan" style="width:100%; justify-content:center;">Comprar ahora</a>
+    </article>
+  </div>
+</section>
+
+<!-- ============================================================
+     CATEGORÍAS RÁPIDAS
+     ============================================================ -->
+<section class="cat-strip" style="padding-top: 24px; padding-bottom: 24px;">
+  <div class="container">
+    <div class="row">
+      <a href="catalogo.html?cat=laptops">
+        <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v10H3zM2 19h20"/></svg></span>
+        Laptops
+      </a>
+      <a href="catalogo.html?cat=desktops">
+        <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H4zM2 20h20M9 16v4M15 16v4"/></svg></span>
+        Computadoras
+      </a>
+      <a href="catalogo.html?cat=impresoras">
+        <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg></span>
+        Impresoras
+      </a>
+      <a href="catalogo.html?cat=monitores">
+        <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h18v12H3zM8 20h8M12 16v4"/></svg></span>
+        Monitores
+      </a>
+      <a href="catalogo.html?cat=componentes">
+        <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM9 9h6v6H9zM9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg></span>
+        Componentes
+      </a>
+      <a href="catalogo.html?cat=accesorios">
+        <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11h18v6H3zM6 11V8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/></svg></span>
+        Accesorios
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MARCAS
+     ============================================================ -->
+<div class="brands">
+  <div class="brands-track">
+    <span>HP</span><span>DELL</span><span>LENOVO</span><span>ASUS</span>
+    <span>ACER</span><span>APPLE</span><span>MSI</span><span>SAMSUNG</span>
+    <span>INTEL</span><span>AMD</span><span>NVIDIA</span><span>KINGSTON</span>
+    <span>CORSAIR</span><span>LOGITECH</span><span>EPSON</span><span>CANON</span>
+    <!-- duplicado para loop -->
+    <span>HP</span><span>DELL</span><span>LENOVO</span><span>ASUS</span>
+    <span>ACER</span><span>APPLE</span><span>MSI</span><span>SAMSUNG</span>
+    <span>INTEL</span><span>AMD</span><span>NVIDIA</span><span>KINGSTON</span>
+    <span>CORSAIR</span><span>LOGITECH</span><span>EPSON</span><span>CANON</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     OFERTAS DESTACADAS
+     ============================================================ -->
+<section id="ofertas">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">🔥 Ofertas destacadas</h2>
+        <p class="section-subtitle">Los productos más buscados de la semana con descuentos exclusivos.</p>
+      </div>
+      <a href="catalogo.html" class="link-more">Ver todas las ofertas →</a>
+    </div>
+
+    <div class="products-grid">
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?auto=format&fit=crop&w=600&q=80" alt="" />
+          <span class="badge badge-oferta">-15%</span>
+          <button class="wish" aria-label="Favorito"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="body">
+          <span class="cat">Laptops Gamer</span>
+          <h3>Lenovo IdeaPad Gaming 3</h3>
+          <div class="stars">★★★★★ <span style="color:var(--plomo-400); font-weight:600;">(124)</span></div>
+          <p class="specs">Ryzen 7 · 16GB · RTX 4050 · SSD 512GB</p>
+          <div class="price-row">
+            <div class="price">
+              <span class="old">S/ 4,899</span>
+              <span class="new">S/ 4,299</span>
+            </div>
+            <a href="#" class="buy" aria-label="Comprar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80" alt="" />
+          <span class="badge badge-top">Top ventas</span>
+          <button class="wish" aria-label="Favorito"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="body">
+          <span class="cat">Laptops</span>
+          <h3>MacBook Air M3 13"</h3>
+          <div class="stars">★★★★★ <span style="color:var(--plomo-400); font-weight:600;">(89)</span></div>
+          <p class="specs">Apple M3 · 8GB · SSD 256GB · macOS</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 5,499</span></div>
+            <a href="#" class="buy" aria-label="Comprar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=600&q=80" alt="" />
+          <span class="badge badge-nuevo">Nuevo</span>
+          <button class="wish" aria-label="Favorito"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="body">
+          <span class="cat">All-in-One</span>
+          <h3>HP Pavilion AIO 24"</h3>
+          <div class="stars">★★★★☆ <span style="color:var(--plomo-400); font-weight:600;">(42)</span></div>
+          <p class="specs">Core i5 · 8GB · SSD 256GB · 23.8" FHD</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 3,099</span></div>
+            <a href="#" class="buy" aria-label="Comprar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80" alt="" />
+          <span class="badge badge-gamer">Gamer</span>
+          <button class="wish" aria-label="Favorito"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="body">
+          <span class="cat">Laptops Gamer</span>
+          <h3>Asus ROG Strix G16</h3>
+          <div class="stars">★★★★★ <span style="color:var(--plomo-400); font-weight:600;">(67)</span></div>
+          <p class="specs">i7-13650HX · 16GB · RTX 4060 · 165Hz</p>
+          <div class="price-row">
+            <div class="price">
+              <span class="old">S/ 7,299</span>
+              <span class="new">S/ 6,799</span>
+            </div>
+            <a href="#" class="buy" aria-label="Comprar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80" alt="" />
+          <span class="badge badge-stock">En stock</span>
+          <button class="wish" aria-label="Favorito"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="body">
+          <span class="cat">Monitores</span>
+          <h3>Samsung Curvo 27" QHD</h3>
+          <div class="stars">★★★★★ <span style="color:var(--plomo-400); font-weight:600;">(231)</span></div>
+          <p class="specs">QHD · 165Hz · 1ms · FreeSync</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 1,199</span></div>
+            <a href="#" class="buy" aria-label="Comprar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=600&q=80" alt="" />
+          <span class="badge badge-oferta">-10%</span>
+          <button class="wish" aria-label="Favorito"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="body">
+          <span class="cat">Impresoras</span>
+          <h3>Epson EcoTank L3250</h3>
+          <div class="stars">★★★★☆ <span style="color:var(--plomo-400); font-weight:600;">(312)</span></div>
+          <p class="specs">Multifuncional · WiFi · Sistema continuo</p>
+          <div class="price-row">
+            <div class="price">
+              <span class="old">S/ 949</span>
+              <span class="new">S/ 849</span>
+            </div>
+            <a href="#" class="buy" aria-label="Comprar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=600&q=80" alt="" />
+          <span class="badge badge-gamer">Build</span>
+          <button class="wish" aria-label="Favorito"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="body">
+          <span class="cat">PC Gamer</span>
+          <h3>PC Gamer ComTec CT-Pro</h3>
+          <div class="stars">★★★★★ <span style="color:var(--plomo-400); font-weight:600;">(78)</span></div>
+          <p class="specs">Ryzen 5 7600 · 16GB DDR5 · RTX 4060</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 5,899</span></div>
+            <a href="#" class="buy" aria-label="Comprar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1612815292258-f4354e07e2d4?auto=format&fit=crop&w=600&q=80" alt="" />
+          <span class="badge badge-stock">En stock</span>
+          <button class="wish" aria-label="Favorito"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="body">
+          <span class="cat">Impresoras</span>
+          <h3>Canon Pixma G3170</h3>
+          <div class="stars">★★★★☆ <span style="color:var(--plomo-400); font-weight:600;">(98)</span></div>
+          <p class="specs">Multifuncional · WiFi · Tanque de tinta</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 799</span></div>
+            <a href="#" class="buy" aria-label="Comprar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BANNER PROMO
+     ============================================================ -->
+<section style="padding: 20px 0;">
+  <div class="container">
+    <div class="promo-banner">
+      <div class="text">
+        <small>★ Combo especial ★</small>
+        <h3>Arma tu PC Gamer<br />desde S/ 3,499</h3>
+        <p>Asesoría gratis, build con cableado pro, RGB calibrado y prueba de stress incluida. Cuotas sin intereses con tarjeta.</p>
+        <a href="#contacto" class="btn btn-cyan">Cotizar mi build</a>
+      </div>
+      <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80" alt="PC Gamer armada" />
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LAPTOPS DESTACADAS
+     ============================================================ -->
+<section class="alt-bg">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">💻 Laptops más vendidas</h2>
+        <p class="section-subtitle">Ultrabooks, gamer y workstation de las marcas líderes.</p>
+      </div>
+      <a href="catalogo.html?cat=laptops" class="link-more">Ver todas →</a>
+    </div>
+
+    <div class="products-grid">
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&q=80" alt="" />
+        </div>
+        <div class="body">
+          <span class="cat">Laptops</span>
+          <h3>HP Pavilion 15"</h3>
+          <p class="specs">Core i5-1335U · 16GB · SSD 512GB</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 3,499</span></div>
+            <a href="#" class="buy"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1611186871348-b1ce6e998f13?auto=format&fit=crop&w=600&q=80" alt="" />
+        </div>
+        <div class="body">
+          <span class="cat">Laptops</span>
+          <h3>Dell Inspiron 15</h3>
+          <p class="specs">Core i7-1355U · 16GB · SSD 1TB</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 4,099</span></div>
+            <a href="#" class="buy"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=600&q=80" alt="" />
+        </div>
+        <div class="body">
+          <span class="cat">Laptops</span>
+          <h3>Lenovo ThinkPad E14</h3>
+          <p class="specs">Ryzen 5 7530U · 16GB · SSD 512GB</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 3,899</span></div>
+            <a href="#" class="buy"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80" alt="" />
+          <span class="badge badge-top">Top</span>
+        </div>
+        <div class="body">
+          <span class="cat">Laptops</span>
+          <h3>Asus Vivobook 16X</h3>
+          <p class="specs">Ryzen 7 7730U · 16GB · SSD 1TB</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 4,499</span></div>
+            <a href="#" class="buy"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPONENTES
+     ============================================================ -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">⚙️ Componentes individuales</h2>
+        <p class="section-subtitle">Arma o actualiza tu PC pieza por pieza. Stock real y precios competitivos.</p>
+      </div>
+      <a href="catalogo.html?cat=componentes" class="link-more">Ver todos →</a>
+    </div>
+
+    <div class="products-grid">
+      <article class="product-card">
+        <div class="img-wrap"><img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=600&q=80" alt="" /></div>
+        <div class="body">
+          <span class="cat">Procesador</span>
+          <h3>Intel Core i5-13400F</h3>
+          <p class="specs">10 núcleos · 16 hilos · 4.6 GHz</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 749</span></div>
+            <a href="#" class="buy"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap"><img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=600&q=80" alt="" /></div>
+        <div class="body">
+          <span class="cat">Memoria RAM</span>
+          <h3>Kingston Fury 16GB DDR5</h3>
+          <p class="specs">5200 MHz · CL40 · Heatspreader</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 299</span></div>
+            <a href="#" class="buy"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?auto=format&fit=crop&w=600&q=80" alt="" />
+          <span class="badge badge-gamer">Gamer</span>
+        </div>
+        <div class="body">
+          <span class="cat">Tarjeta gráfica</span>
+          <h3>Nvidia RTX 4060 8GB</h3>
+          <p class="specs">Asus Dual · DLSS 3 · Ray Tracing</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 1,499</span></div>
+            <a href="#" class="buy"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap"><img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=600&q=80" alt="" /></div>
+        <div class="body">
+          <span class="cat">SSD NVMe</span>
+          <h3>Samsung 980 Pro 1TB</h3>
+          <p class="specs">PCIe 4.0 · 7000 MB/s lectura</p>
+          <div class="price-row">
+            <div class="price"><span class="new">S/ 449</span></div>
+            <a href="#" class="buy"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BENEFICIOS
+     ============================================================ -->
+<section class="alt-bg">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">¿Por qué elegirnos?</h2>
+        <p class="section-subtitle">Más de 10 años equipando hogares, oficinas y gamers en Huancayo.</p>
+      </div>
+    </div>
+
+    <div class="benefits">
+      <div class="benefit">
+        <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></span>
+        <div><h4>Envíos a todo el Perú</h4><p>Despachos seguros con tracking en 24-72 h.</p></div>
+      </div>
+      <div class="benefit">
+        <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <div><h4>Garantía oficial</h4><p>Hasta 3 años con factura legal.</p></div>
+      </div>
+      <div class="benefit">
+        <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.69 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.33 1.85.56 2.81.69A2 2 0 0 1 22 16.92z"/></svg></span>
+        <div><h4>Soporte técnico</h4><p>Atención por WhatsApp y presencial.</p></div>
+      </div>
+      <div class="benefit">
+        <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M2 10h20M6 14h4"/></svg></span>
+        <div><h4>Múltiples pagos</h4><p>Tarjeta, Yape, Plin, transferencia y cuotas.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     NEWSLETTER
+     ============================================================ -->
+<section id="contacto">
+  <div class="container">
+    <div class="newsletter">
+      <h3>Suscríbete y recibe ofertas exclusivas</h3>
+      <p>Promos semanales, lanzamientos y descuentos para suscriptores.</p>
+      <form onsubmit="event.preventDefault(); alert('¡Gracias por suscribirte!')">
+        <input type="email" required placeholder="tu@email.com" />
+        <button type="submit" class="btn btn-primary">Suscribirme</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-clip"><img src="images/logo.jpeg" alt="ComTec" /></div>
+        <p>Más de 10 años equipando hogares, oficinas y gamers con tecnología original, garantía real y soporte técnico especializado.</p>
+        <div class="social">
+          <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-3h2.4V9.6c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 3h-2.2v7A10 10 0 0 0 22 12z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6A12 12 0 0 0 12 24c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.5zm-8.5 18.4c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-3.7 1 1-3.6-.2-.4A9.9 9.9 0 1 1 12 21.9z"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 5.8a4.7 4.7 0 0 1-3.8-2.3v11a5.7 5.7 0 1 1-5.7-5.7v2.8a2.9 2.9 0 1 0 2.9 2.9V0h2.9a4.7 4.7 0 0 0 3.7 5.8z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Tienda</h5>
+        <ul>
+          <li><a href="catalogo.html?cat=laptops">Laptops</a></li>
+          <li><a href="catalogo.html?cat=desktops">Computadoras</a></li>
+          <li><a href="catalogo.html?cat=impresoras">Impresoras</a></li>
+          <li><a href="catalogo.html?cat=monitores">Monitores</a></li>
+          <li><a href="catalogo.html?cat=accesorios">Accesorios</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Componentes</h5>
+        <ul>
+          <li><a href="catalogo.html?cat=componentes&sub=cpu">Procesadores</a></li>
+          <li><a href="catalogo.html?cat=componentes&sub=ram">Memorias RAM</a></li>
+          <li><a href="catalogo.html?cat=componentes&sub=gpu">Tarjetas gráficas</a></li>
+          <li><a href="catalogo.html?cat=componentes&sub=ssd">Discos SSD</a></li>
+          <li><a href="catalogo.html?cat=componentes&sub=psu">Fuentes de poder</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Soporte</h5>
+        <ul>
+          <li><a href="#">Garantías</a></li>
+          <li><a href="#">Servicio técnico</a></li>
+          <li><a href="#">Envíos y pagos</a></li>
+          <li><a href="#">Preguntas frecuentes</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <span id="year">2026</span> ComTec · Tienda de Tecnología. Todos los derechos reservados.</p>
+      <div class="pay">
+        <span>VISA</span><span>MASTERCARD</span><span>YAPE</span><span>PLIN</span><span>BCP</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

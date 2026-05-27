@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo · ComTec — Computadoras, Laptops e Impresoras</title>
+  <meta name="description" content="Catálogo completo de ComTec: laptops, computadoras, impresoras, monitores, componentes y accesorios." />
+  <link rel="icon" type="image/jpeg" href="images/logo.jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- HEADER (copia) -->
+<header class="header">
+  <div class="header-top">
+    <div class="container">
+      <span>📍 Real Plaza, Huancayo — Lun a Sáb 9:00 - 20:00</span>
+      <div>
+        <a href="tel:+51964123456">📞 +51 964 123 456</a>
+        <a href="mailto:ventas@comtec.pe">✉ ventas@comtec.pe</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="header-main">
+      <a href="index.html" class="logo-wrap" aria-label="ComTec inicio">
+        <div class="logo-clip"><img src="images/logo.jpeg" alt="ComTec" /></div>
+      </a>
+
+      <form class="search-bar" onsubmit="event.preventDefault()">
+        <input type="search" placeholder="Buscar laptops, PCs, impresoras, componentes…" />
+        <button type="submit" aria-label="Buscar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </button>
+      </form>
+
+      <div class="header-actions">
+        <a href="#" class="icon-btn" aria-label="Mi cuenta"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="#" class="icon-btn" aria-label="Favoritos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></a>
+        <a href="#" class="icon-btn" aria-label="Carrito"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg><span class="count" id="cartCount">0</span></a>
+        <button class="menu-btn" id="menuBtn" aria-label="Menú"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav" id="navMenu">
+    <div class="container">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="catalogo.html" class="active">Catálogo</a></li>
+        <li><a href="catalogo.html?cat=laptops">Laptops</a></li>
+        <li><a href="catalogo.html?cat=desktops">Computadoras</a></li>
+        <li><a href="catalogo.html?cat=impresoras">Impresoras</a></li>
+        <li><a href="catalogo.html?cat=componentes">Componentes</a></li>
+        <li><a href="catalogo.html?cat=accesorios">Accesorios</a></li>
+        <li><a href="index.html#contacto">Servicio Técnico</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- Breadcrumb + título -->
+<section style="padding: 32px 0 16px;">
+  <div class="container">
+    <p style="color: var(--plomo-500); font-size: 13px; margin: 0 0 8px;">
+      <a href="index.html" style="color: var(--brand-600); font-weight: 600;">Inicio</a> ›
+      <span>Catálogo</span>
+    </p>
+    <h1 class="section-title" style="margin: 0 0 8px;">Catálogo completo</h1>
+    <p style="color: var(--plomo-600); margin: 0;">Encuentra el equipo perfecto entre nuestra selección de productos.</p>
+  </div>
+</section>
+
+<!-- LAYOUT -->
+<section style="padding-top: 16px;">
+  <div class="container">
+    <div class="catalog-layout">
+
+      <!-- Filtros -->
+      <aside class="filters">
+        <h4>Filtros</h4>
+
+        <div class="filter-group">
+          <strong style="display:block; margin-bottom: 8px; color: var(--plomo-700);">Categoría</strong>
+          <label><input type="checkbox" data-filter="cat" value="Laptops" checked /> Laptops <span class="count">42</span></label>
+          <label><input type="checkbox" data-filter="cat" value="Desktops" /> Computadoras <span class="count">28</span></label>
+          <label><input type="checkbox" data-filter="cat" value="Impresoras" /> Impresoras <span class="count">15</span></label>
+          <label><input type="checkbox" data-filter="cat" value="Monitores" /> Monitores <span class="count">22</span></label>
+          <label><input type="checkbox" data-filter="cat" value="Componentes" /> Componentes <span class="count">86</span></label>
+          <label><input type="checkbox" data-filter="cat" value="Accesorios" /> Accesorios <span class="count">54</span></label>
+        </div>
+
+        <div class="filter-group">
+          <strong style="display:block; margin-bottom: 8px; color: var(--plomo-700);">Marca</strong>
+          <label><input type="checkbox" data-filter="brand" value="HP" /> HP <span class="count">38</span></label>
+          <label><input type="checkbox" data-filter="brand" value="Dell" /> Dell <span class="count">24</span></label>
+          <label><input type="checkbox" data-filter="brand" value="Lenovo" /> Lenovo <span class="count">31</span></label>
+          <label><input type="checkbox" data-filter="brand" value="Asus" /> Asus <span class="count">27</span></label>
+          <label><input type="checkbox" data-filter="brand" value="Apple" /> Apple <span class="count">9</span></label>
+          <label><input type="checkbox" data-filter="brand" value="Intel" /> Intel <span class="count">18</span></label>
+          <label><input type="checkbox" data-filter="brand" value="AMD" /> AMD <span class="count">15</span></label>
+          <label><input type="checkbox" data-filter="brand" value="Nvidia" /> Nvidia <span class="count">12</span></label>
+        </div>
+
+        <div class="filter-group">
+          <strong style="display:block; margin-bottom: 8px; color: var(--plomo-700);">Precio (S/)</strong>
+          <div class="price-range">
+            <input type="number" placeholder="Mín" min="0" />
+            <input type="number" placeholder="Máx" min="0" />
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <strong style="display:block; margin-bottom: 8px; color: var(--plomo-700);">Promoción</strong>
+          <label><input type="checkbox" /> En oferta <span class="count">23</span></label>
+          <label><input type="checkbox" /> Productos nuevos <span class="count">17</span></label>
+          <label><input type="checkbox" /> Más vendidos <span class="count">31</span></label>
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; justify-content: center;">Aplicar filtros</button>
+      </aside>
+
+      <!-- Productos -->
+      <div>
+        <div class="catalog-toolbar">
+          <p class="results">Mostrando <strong>1-12</strong> de <strong>247</strong> productos</p>
+          <select aria-label="Ordenar">
+            <option>Ordenar: Más relevantes</option>
+            <option>Menor precio</option>
+            <option>Mayor precio</option>
+            <option>Mejor calificados</option>
+            <option>Más nuevos</option>
+          </select>
+        </div>
+
+        <div class="products-grid" id="catalogGrid">
+          <!-- Los productos se generarán con JS para fácil mantenimiento -->
+        </div>
+
+        <!-- Paginación -->
+        <div style="display:flex; justify-content:center; gap: 8px; margin-top: 32px;">
+          <button class="btn btn-ghost">‹</button>
+          <button class="btn btn-primary">1</button>
+          <button class="btn btn-ghost">2</button>
+          <button class="btn btn-ghost">3</button>
+          <button class="btn btn-ghost">…</button>
+          <button class="btn btn-ghost">21</button>
+          <button class="btn btn-ghost">›</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (copia) -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-clip"><img src="images/logo.jpeg" alt="ComTec" /></div>
+        <p>Más de 10 años equipando hogares, oficinas y gamers con tecnología original, garantía real y soporte técnico especializado.</p>
+        <div class="social">
+          <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-3h2.4V9.6c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 3h-2.2v7A10 10 0 0 0 22 12z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6A12 12 0 0 0 12 24c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.5zm-8.5 18.4c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-3.7 1 1-3.6-.2-.4A9.9 9.9 0 1 1 12 21.9z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Tienda</h5>
+        <ul>
+          <li><a href="catalogo.html?cat=laptops">Laptops</a></li>
+          <li><a href="catalogo.html?cat=desktops">Computadoras</a></li>
+          <li><a href="catalogo.html?cat=impresoras">Impresoras</a></li>
+          <li><a href="catalogo.html?cat=monitores">Monitores</a></li>
+          <li><a href="catalogo.html?cat=accesorios">Accesorios</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Componentes</h5>
+        <ul>
+          <li><a href="catalogo.html?cat=componentes">Procesadores</a></li>
+          <li><a href="catalogo.html?cat=componentes">Memorias RAM</a></li>
+          <li><a href="catalogo.html?cat=componentes">Tarjetas gráficas</a></li>
+          <li><a href="catalogo.html?cat=componentes">Discos SSD</a></li>
+          <li><a href="catalogo.html?cat=componentes">Fuentes de poder</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Soporte</h5>
+        <ul>
+          <li><a href="#">Garantías</a></li>
+          <li><a href="#">Servicio técnico</a></li>
+          <li><a href="#">Envíos y pagos</a></li>
+          <li><a href="#">Preguntas frecuentes</a></li>
+          <li><a href="index.html#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <span id="year">2026</span> ComTec · Tienda de Tecnología. Todos los derechos reservados.</p>
+      <div class="pay"><span>VISA</span><span>MASTERCARD</span><span>YAPE</span><span>PLIN</span><span>BCP</span></div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="catalog.js"></script>
+</body>
+</html>

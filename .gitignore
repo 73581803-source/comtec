@@ -1,0 +1,29 @@
+# Dependencias
+node_modules/
+**/node_modules/
+
+# Base de datos local (en producción Render usará su disco)
+backend/db/*.db
+backend/db/*.db-journal
+backend/db/*.db-wal
+backend/db/*.db-shm
+
+# Variables de entorno
+.env
+backend/.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~

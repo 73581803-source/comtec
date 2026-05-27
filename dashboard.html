@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel ComTec</title>
+  <link rel="icon" type="image/jpeg" href="images/logo.jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-head">
+      <img src="images/logo.jpeg" alt="ComTec" />
+      <div>
+        <strong>ComTec</strong>
+        <small>Panel de gestión</small>
+      </div>
+    </div>
+
+    <nav class="sb-nav" id="sb-nav"></nav>
+
+    <div class="sb-foot">
+      <button id="btn-logout" class="btn-logout" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <header class="topbar">
+      <button class="btn-sidebar" id="btn-toggle-sb" aria-label="Menú">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <h1 id="page-title">Dashboard</h1>
+      <div class="topbar-right">
+        <div class="user-chip">
+          <div class="avatar" id="user-avatar"></div>
+          <div class="meta">
+            <strong id="user-nombre">—</strong>
+            <small id="user-role">—</small>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="content" id="content">
+      <div class="loading-screen"><div class="spinner"></div><p>Cargando…</p></div>
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script src="assets/js/panels/home.js"></script>
+  <script src="assets/js/panels/ventas.js"></script>
+  <script src="assets/js/panels/inventario.js"></script>
+  <script src="assets/js/panels/componentes.js"></script>
+  <script src="assets/js/panels/personal.js"></script>
+  <script src="assets/js/panels/tecnicos.js"></script>
+  <script src="assets/js/panels/chat.js"></script>
+  <script>window.ComTec.init();</script>
+
+</body>
+</html>

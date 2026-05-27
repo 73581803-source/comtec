@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ingresar — ComTec</title>
+  <link rel="icon" type="image/jpeg" href="images/logo.jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/login.css" />
+</head>
+<body>
+  <div class="login-shell">
+
+    <!-- Lado izquierdo: branding -->
+    <aside class="brand-side">
+      <div class="brand-logo">
+        <img src="images/logo.jpeg" alt="ComTec" />
+      </div>
+      <h1>Bienvenido al panel<br/>de gestión <span>ComTec</span></h1>
+      <p>Administra ventas, inventario, técnicos y conversa en tiempo real con tu equipo desde un mismo lugar.</p>
+
+      <ul class="features">
+        <li><span class="dot"></span> Dashboard de ventas con gráficos automáticos</li>
+        <li><span class="dot"></span> Inventario y componentes en tiempo real</li>
+        <li><span class="dot"></span> Trabajo de técnicos y vendedoras</li>
+        <li><span class="dot"></span> Chat interno con tu equipo</li>
+      </ul>
+
+      <div class="brand-foot">
+        © <span id="year"></span> ComTec — Huancayo, Perú
+      </div>
+    </aside>
+
+    <!-- Lado derecho: formulario -->
+    <main class="form-side">
+      <div class="form-card">
+        <header>
+          <h2>Iniciar sesión</h2>
+          <p>Ingresa tus credenciales para continuar</p>
+        </header>
+
+        <form id="login-form" novalidate>
+          <label class="field">
+            <span>Correo electrónico</span>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16v12H4z"/><path d="M4 6l8 7 8-7"/></svg>
+              <input type="email" name="email" autocomplete="username" placeholder="tu.correo@comtec.pe" required />
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Contraseña</span>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              <input type="password" name="password" autocomplete="current-password" placeholder="••••••••" minlength="6" required />
+              <button type="button" class="btn-eye" aria-label="Mostrar/ocultar">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </label>
+
+          <div class="row-between">
+            <label class="check"><input type="checkbox" name="recordar" checked /> <span>Recordarme</span></label>
+            <a href="#" class="link-mute">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button type="submit" class="btn-submit">
+            <span class="label">Ingresar</span>
+            <span class="spinner" aria-hidden="true"></span>
+          </button>
+
+          <p id="login-error" class="error" hidden></p>
+        </form>
+
+        <details class="demo-creds">
+          <summary>Credenciales de demostración</summary>
+          <ul>
+            <li><b>Admin</b> · admin@comtec.pe · <code>admin123</code></li>
+            <li><b>Vendedora</b> · maria@comtec.pe · <code>vendedor123</code></li>
+            <li><b>Técnico</b> · carlos@comtec.pe · <code>tecnico123</code></li>
+          </ul>
+        </details>
+      </div>
+
+      <a href="index.html" class="back-home">← Volver al sitio</a>
+    </main>
+
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/login.js"></script>
+</body>
+</html>
