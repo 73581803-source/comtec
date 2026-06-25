@@ -108,3 +108,51 @@ CREATE TABLE IF NOT EXISTS chat_messages (
 );
 
 CREATE INDEX IF NOT EXISTS idx_chat_sala_fecha ON chat_messages(sala, creado_en);
+
+-- ============================================================
+-- Tiendas / sucursales
+-- ============================================================
+CREATE TABLE IF NOT EXISTS tiendas (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  nombre     TEXT NOT NULL,
+  direccion  TEXT,
+  telefono   TEXT,
+  activo     INTEGER NOT NULL DEFAULT 1,
+  creado_en  TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- ============================================================
+-- Cierre de caja diario por tienda
+-- Cada tienda entrega al final del día: efectivo + yape + tarjeta + transferencia,
+-- menos los pagos a proveedor (egresos). El total a entregar se calcula.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS cierres_caja (
+  id            INTEGER PRIMARY KEY AUTOINCREMENT,
+  tienda_id     INTEGER NOT NULL,
+  fecha         TEXT NOT NULL DEFAULT (date('now')),
+  usuario_id    INTEGER NOT NULL,
+  efectivo      REAL NOT NULL DEFAULT 0,
+  yape          REAL NOT NULL DEFAULT 0,
+  tarjeta       REAL NOT NULL DEFAULT 0,
+  transferencia REAL NOT NULL DEFAULT 0,
+  observaciones TEXT,
+  estado        TEXT NOT NULL DEFAULT 'entregado',   -- entregado | pendiente | observado
+  creado_en     TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (tienda_id)  REFERENCES tiendas(id),
+  FOREIGN KEY (usuario_id) REFERENCES users(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_cierres_fecha  ON cierres_caja(fecha);
+CREATE INDEX IF NOT EXISTS idx_cierres_tienda ON cierres_caja(tienda_id);
+
+-- Egresos del día: pagos a proveedor u otros gastos que se descuentan de la caja
+CREATE TABLE IF NOT EXISTS cierre_egresos (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  cierre_id  INTEGER NOT NULL,
+  concepto   TEXT NOT NULL,
+  proveedor  TEXT,
+  monto      REAL NOT NULL DEFAULT 0,
+  FOREIGN KEY (cierre_id) REFERENCES cierres_caja(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_cierre_egresos ON cierre_egresos(cierre_id);

@@ -9,7 +9,9 @@
   const PANELS = [
     { id: 'home',        label: 'Resumen',       icon: iconHome,     roles: ['admin','tecnico','vendedor'] },
     { id: 'ventas',      label: 'Ventas',        icon: iconCart,     roles: ['admin','vendedor'] },
+    { id: 'caja',        label: 'Cierre de caja',icon: iconCash,     roles: ['admin','vendedor'] },
     { id: 'inventario',  label: 'Inventario',    icon: iconBox,      roles: ['admin','vendedor'] },
+    { id: 'tiendas',     label: 'Tiendas',       icon: iconStore,    roles: ['admin'] },
     { id: 'componentes', label: 'Componentes',   icon: iconChip,     roles: ['admin'] },
     { id: 'personal',    label: 'Personal',      icon: iconUsers,    roles: ['admin'] },
     { id: 'tecnicos',    label: 'Técnicos',      icon: iconWrench,   roles: ['admin','tecnico'] },
@@ -148,5 +150,7 @@
   function iconUsers()  { return svg('<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'); }
   function iconWrench() { return svg('<path d="M14.7 6.3a4 4 0 0 0 5 5l-4 4-5-5z"/><path d="M3 21l8-8"/>'); }
   function iconChat()   { return svg('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'); }
+  function iconCash()   { return svg('<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="18" y2="12"/>'); }
+  function iconStore()  { return svg('<path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/>'); }
 
 })();

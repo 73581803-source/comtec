@@ -2,18 +2,22 @@
 (function () {
   const { API, fmt, toast, modal } = window.ComTec;
   let items = [];
+  let tiendas = [];
   let categoriaSel = '';
+  let tiendaSel = '';
   let qFiltro = '';
 
   window.ComTec.panels.inventario = {
     async render(root, user) {
+      const esAdmin = user.role === 'admin';
       root.innerHTML = `
         <div class="section-head">
           <div class="title"><h2>Inventario</h2><p>Productos disponibles en tienda</p></div>
           <div class="filters">
-            <input id="inv-q" class="input" placeholder="Buscar por nombre, SKU o marca…" style="width:280px"/>
-            <select id="inv-cat" class="select" style="width:170px"><option value="">Todas categorías</option></select>
-            ${user.role === 'admin' ? '<button class="btn btn-primary" id="btn-nuevo">+ Nuevo producto</button>' : ''}
+            <input id="inv-q" class="input" placeholder="Buscar por nombre, SKU o marca…" style="width:260px"/>
+            <select id="inv-cat" class="select" style="width:160px"><option value="">Todas categorías</option></select>
+            ${esAdmin ? '<select id="inv-tienda" class="select" style="width:160px"><option value="">Todas las tiendas</option><option value="sin">Sin asignar</option></select>' : ''}
+            ${esAdmin ? '<button class="btn btn-primary" id="btn-nuevo">+ Nuevo producto</button>' : ''}
           </div>
         </div>
         <div class="card" style="padding:0">
@@ -26,6 +30,14 @@
         for (const c of cats) sel.insertAdjacentHTML('beforeend', `<option value="${c.categoria}">${capit(c.categoria)} (${c.total})</option>`);
         sel.onchange = () => { categoriaSel = sel.value; recargar(); };
       } catch (e) { /* sin red */ }
+      if (esAdmin) {
+        try {
+          tiendas = await API.get('/api/tiendas');
+          const selT = document.getElementById('inv-tienda');
+          for (const t of tiendas) selT.insertAdjacentHTML('beforeend', `<option value="${t.id}">${esc(t.nombre)}</option>`);
+          selT.onchange = () => { tiendaSel = selT.value; recargar(); };
+        } catch (e) { /* sin red */ }
+      }
       document.getElementById('inv-q').addEventListener('input', e => { qFiltro = e.target.value; render(); });
       const btnNuevo = document.getElementById('btn-nuevo');
       if (btnNuevo) btnNuevo.onclick = () => editar(null);
@@ -36,6 +48,7 @@
   async function recargar() {
     const params = new URLSearchParams();
     if (categoriaSel) params.set('categoria', categoriaSel);
+    if (tiendaSel) params.set('tiendaId', tiendaSel);
     try { items = await API.get('/api/inventory' + (params.toString() ? '?'+params : '')); render(); }
     catch (e) { toast(e.message, 'error'); }
   }
@@ -53,6 +66,7 @@
         <thead>
           <tr>
             <th>SKU</th><th>Producto</th><th>Categoría</th><th>Marca</th>
+            ${user.role==='admin'?'<th>Tienda</th>':''}
             <th class="num">Precio</th><th class="num">Stock</th><th>Estado</th>
             ${user.role==='admin'?'<th></th>':''}
           </tr>
@@ -64,6 +78,7 @@
               <td><strong>${i.nombre}</strong></td>
               <td><span class="pill pill-mute">${capit(i.categoria)}</span></td>
               <td>${i.marca||'—'}</td>
+              ${user.role==='admin' ? `<td>${i.tienda_nombre ? '<span class="pill pill-cyan">'+esc(i.tienda_nombre)+'</span>' : '<span style="color:#cbd5e1;font-size:12px">— sin asignar —</span>'}</td>` : ''}
               <td class="num"><strong>${fmt.money(i.precio_venta)}</strong></td>
               <td class="num">${i.stock} <span style="color:#94a3b8;font-size:11px">/ min ${i.stock_min}</span></td>
               <td>${stockPill(i)}</td>
@@ -82,6 +97,7 @@
   }
 
   function capit(s) { return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
+  function esc(s) { return s == null ? '' : String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
   async function editar(id) {
     let it = { sku:'', nombre:'', categoria:'laptops', marca:'', descripcion:'', precio_compra:0, precio_venta:0, stock:0, stock_min:1, imagen_url:'', activo:1 };
@@ -108,8 +124,11 @@
             <div><label class="field-lbl">P. venta *</label><input id="i-pv" class="input" type="number" step="0.01" value="${it.precio_venta}"/></div>
             <div><label class="field-lbl">Stock</label><input id="i-st" class="input" type="number" value="${it.stock}"/></div>
           </div>
-          <div class="form-row">
+          <div class="form-row three">
             <div><label class="field-lbl">Stock mínimo</label><input id="i-sm" class="input" type="number" value="${it.stock_min}"/></div>
+            <div><label class="field-lbl">Tienda</label>
+              <select id="i-tienda" class="select"><option value="">Sin asignar</option>${tiendas.map(t => `<option value="${t.id}" ${t.id==it.tienda_id?'selected':''}>${esc(t.nombre)}</option>`).join('')}</select>
+            </div>
             <div><label class="field-lbl">Estado</label>
               <select id="i-ac" class="select"><option value="1" ${it.activo?'selected':''}>Activo</option><option value="0" ${!it.activo?'selected':''}>Inactivo</option></select>
             </div>
@@ -137,6 +156,7 @@
             precio_venta: +wrap.querySelector('#i-pv').value || 0,
             stock: +wrap.querySelector('#i-st').value || 0,
             stock_min: +wrap.querySelector('#i-sm').value || 1,
+            tienda_id: wrap.querySelector('#i-tienda').value ? +wrap.querySelector('#i-tienda').value : null,
             activo: +wrap.querySelector('#i-ac').value,
           };
           if (!data.nombre) return toast('Falta el nombre','error');

@@ -15,6 +15,8 @@ const techRoutes = require('./routes/tech');
 const { router: chatRoutes, puedeVerSala, SALAS_PERMITIDAS } = require('./routes/chat');
 const dashboardRoutes = require('./routes/dashboard');
 const pdfRoutes = require('./routes/pdf');
+const tiendasRoutes = require('./routes/tiendas');
+const cajaRoutes = require('./routes/caja');
 const { verifyToken } = require('./middleware/auth');
 
 const app = express();
@@ -33,6 +35,8 @@ app.use('/api/tech',       techRoutes);
 app.use('/api/chat',       chatRoutes);
 app.use('/api/dashboard',  dashboardRoutes);
 app.use('/api/pdf',        pdfRoutes);
+app.use('/api/tiendas',    tiendasRoutes);
+app.use('/api/caja',       cajaRoutes);
 
 app.get('/api/health', (req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
 

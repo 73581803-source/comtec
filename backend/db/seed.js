@@ -32,10 +32,19 @@ for (const u of usuarios) {
   userIds[u.email] = r.lastInsertRowid;
 }
 
+// ---------- Tiendas / sucursales ----------
+const insertTienda = db.prepare('INSERT INTO tiendas (nombre, direccion) VALUES (?, ?)');
+const tiendasSeed = [
+  ['Tienda Centro',   'Av. Principal 123'],
+  ['Tienda Mercado',  'Jr. Comercio 456'],
+  ['Tienda Norte',    null],
+];
+const tiendaIds = tiendasSeed.map(([n, d]) => insertTienda.run(n, d).lastInsertRowid);
+
 // ---------- Inventario ----------
 const insertInv = db.prepare(`
-  INSERT INTO inventory (sku, nombre, categoria, marca, descripcion, precio_compra, precio_venta, stock, stock_min, imagen_url)
-  VALUES (@sku, @nombre, @categoria, @marca, @descripcion, @pc, @pv, @stock, @stockMin, @img)
+  INSERT INTO inventory (sku, nombre, categoria, marca, descripcion, precio_compra, precio_venta, stock, stock_min, imagen_url, tienda_id)
+  VALUES (@sku, @nombre, @categoria, @marca, @descripcion, @pc, @pv, @stock, @stockMin, @img, @tienda)
 `);
 
 const productos = [
@@ -67,7 +76,7 @@ const productos = [
   { sku:'ACC-002', nombre:'Mouse Logitech G203 Lightsync',                categoria:'accesorios', marca:'Logitech',descripcion:'8000 DPI, RGB',                                         pc:90,   pv:129,  stock:20, stockMin:5, img:'' },
 ];
 
-for (const p of productos) insertInv.run(p);
+productos.forEach((p, i) => insertInv.run({ ...p, tienda: tiendaIds[i % tiendaIds.length] }));
 const allInvIds = db.prepare('SELECT id, sku FROM inventory').all();
 
 // ---------- Componentes destacados (los que aparecerán en la home) ----------
@@ -179,6 +188,37 @@ for (let d = 45; d >= 0; d--) {
       'completado',
       'manual'
     );
+  }
+}
+
+// ---------- Cierres de caja demo (últimos 15 días) ----------
+const insertCierre = db.prepare(`
+  INSERT INTO cierres_caja (tienda_id, fecha, usuario_id, efectivo, yape, tarjeta, transferencia, observaciones, estado)
+  VALUES (?,?,?,?,?,?,?,?,?)
+`);
+const insertEgreso = db.prepare('INSERT INTO cierre_egresos (cierre_id, concepto, proveedor, monto) VALUES (?,?,?,?)');
+const responsables = [userIds['maria@comtec.pe'], userIds['luz@comtec.pe']];
+const proveedores = ['Distribuidora Tech SAC', 'Importaciones Lima', 'Mayorista Wilson', 'ProveeStock EIRL'];
+
+for (let d = 15; d >= 1; d--) {
+  for (const tid of tiendaIds) {
+    if (Math.random() < 0.15) continue; // a veces una tienda no entrega ese día
+    const fecha = new Date(today);
+    fecha.setDate(today.getDate() - d);
+    const fechaIso = fecha.toISOString().slice(0, 10);
+    const efectivo = 200 + Math.floor(Math.random() * 1400);
+    const yape = Math.floor(Math.random() * 900);
+    const tarjeta = Math.random() < 0.5 ? Math.floor(Math.random() * 600) : 0;
+    const transferencia = Math.random() < 0.3 ? Math.floor(Math.random() * 500) : 0;
+    const r = insertCierre.run(tid, fechaIso, responsables[Math.floor(Math.random() * responsables.length)],
+      efectivo, yape, tarjeta, transferencia, null, 'entregado');
+    // 0 a 2 pagos a proveedor
+    const nEg = Math.floor(Math.random() * 3);
+    for (let k = 0; k < nEg; k++) {
+      insertEgreso.run(r.lastInsertRowid, 'Compra de mercadería',
+        proveedores[Math.floor(Math.random() * proveedores.length)],
+        50 + Math.floor(Math.random() * 450));
+    }
   }
 }
 

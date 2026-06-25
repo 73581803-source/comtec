@@ -27,6 +27,16 @@ try {
   ensureColumn('sales',      'valido_hasta', "TEXT");
   ensureColumn('sale_items', 'es_externo',   "INTEGER NOT NULL DEFAULT 0");
   raw.exec('CREATE INDEX IF NOT EXISTS idx_sales_tipo ON sales(tipo)');
+  // Inventario por tienda: cada producto puede estar asignado a una sucursal
+  ensureColumn('inventory',  'tienda_id',    "INTEGER");
+  raw.exec('CREATE INDEX IF NOT EXISTS idx_inventory_tienda ON inventory(tienda_id)');
+  // Garantiza al menos una tienda para bases ya existentes (Render, etc.)
+  const hayTiendas = raw.prepare('SELECT COUNT(*) AS c FROM tiendas').get().c;
+  if (!hayTiendas) {
+    const ins = raw.prepare('INSERT INTO tiendas (nombre, direccion) VALUES (?, ?)');
+    ins.run('Tienda 1', null);
+    ins.run('Tienda 2', null);
+  }
 } catch (e) {
   console.warn('[db] migración:', e.message);
 }
