@@ -145,6 +145,21 @@ CREATE TABLE IF NOT EXISTS cierres_caja (
 CREATE INDEX IF NOT EXISTS idx_cierres_fecha  ON cierres_caja(fecha);
 CREATE INDEX IF NOT EXISTS idx_cierres_tienda ON cierres_caja(tienda_id);
 
+-- Ventas del día (detalle): cada producto/cliente con su monto y forma de pago.
+-- Los totales por método (efectivo/yape/tarjeta/transferencia) en cierres_caja
+-- se calculan sumando estas líneas.
+CREATE TABLE IF NOT EXISTS cierre_ingresos (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  cierre_id   INTEGER NOT NULL,
+  descripcion TEXT NOT NULL,
+  cliente     TEXT,
+  metodo_pago TEXT NOT NULL DEFAULT 'efectivo',  -- efectivo | yape | tarjeta | transferencia
+  monto       REAL NOT NULL DEFAULT 0,
+  FOREIGN KEY (cierre_id) REFERENCES cierres_caja(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_cierre_ingresos ON cierre_ingresos(cierre_id);
+
 -- Egresos del día: pagos a proveedor u otros gastos que se descuentan de la caja
 CREATE TABLE IF NOT EXISTS cierre_egresos (
   id         INTEGER PRIMARY KEY AUTOINCREMENT,

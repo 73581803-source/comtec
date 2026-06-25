@@ -4,7 +4,11 @@ const { DatabaseSync } = require('node:sqlite');
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.join(__dirname, 'comtec.db');
+// La base puede vivir en un disco persistente: define DB_DIR (ej. /var/data en Render).
+// Por defecto se queda junto al código (desarrollo local).
+const dbDir = process.env.DB_DIR || __dirname;
+if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
+const dbPath = path.join(dbDir, 'comtec.db');
 const raw = new DatabaseSync(dbPath);
 
 raw.exec('PRAGMA journal_mode = WAL;');

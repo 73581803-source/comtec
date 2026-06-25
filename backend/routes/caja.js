@@ -71,13 +71,35 @@ router.get('/resumen', (req, res) => {
   });
 });
 
-// Detalle de un cierre con sus egresos
+// Detalle de un cierre con sus ventas (ingresos) y egresos
 router.get('/:id', (req, res) => {
   const cierre = db.prepare(SELECT_CIERRE + ' WHERE c.id = ?').get(req.params.id);
   if (!cierre) return res.status(404).json({ error: 'Cierre no encontrado' });
-  cierre.egresos = db.prepare('SELECT * FROM cierre_egresos WHERE cierre_id = ? ORDER BY id').all(req.params.id);
+  cierre.ingresos = db.prepare('SELECT * FROM cierre_ingresos WHERE cierre_id = ? ORDER BY id').all(req.params.id);
+  cierre.egresos  = db.prepare('SELECT * FROM cierre_egresos  WHERE cierre_id = ? ORDER BY id').all(req.params.id);
   res.json(cierre);
 });
+
+const METODOS = ['efectivo', 'yape', 'tarjeta', 'transferencia'];
+
+function normIngresos(ingresos) {
+  if (!Array.isArray(ingresos)) return [];
+  return ingresos
+    .map(i => ({
+      descripcion: String(i.descripcion || '').trim(),
+      cliente: i.cliente ? String(i.cliente).trim() : null,
+      metodo_pago: METODOS.includes(i.metodo_pago) ? i.metodo_pago : 'efectivo',
+      monto: Number(i.monto) || 0,
+    }))
+    .filter(i => i.descripcion && i.monto > 0);
+}
+
+// Suma los montos por forma de pago a partir del detalle de ventas
+function totalesPorMetodo(ingresos) {
+  const t = { efectivo: 0, yape: 0, tarjeta: 0, transferencia: 0 };
+  for (const i of ingresos) t[i.metodo_pago] += i.monto;
+  return t;
+}
 
 function normEgresos(egresos) {
   if (!Array.isArray(egresos)) return [];
@@ -92,21 +114,29 @@ function normEgresos(egresos) {
 
 // Registrar un cierre de caja (admin o vendedor)
 router.post('/', requireRole('admin', 'vendedor'), (req, res) => {
-  const { tienda_id, fecha, efectivo, yape, tarjeta, transferencia, observaciones, estado, egresos } = req.body;
+  const { tienda_id, fecha, efectivo, yape, tarjeta, transferencia, observaciones, estado, ingresos, egresos } = req.body;
   if (!tienda_id) return res.status(400).json({ error: 'Selecciona una tienda' });
   const tienda = db.prepare('SELECT id FROM tiendas WHERE id = ? AND activo = 1').get(tienda_id);
   if (!tienda) return res.status(400).json({ error: 'Tienda inválida' });
 
+  const ingresosOk = normIngresos(ingresos);
   const egresosOk = normEgresos(egresos);
+  // Si viene el detalle de ventas, los totales por método se calculan de ahí.
+  // Si no, se respetan los montos enviados (compatibilidad).
+  const tm = ingresosOk.length
+    ? totalesPorMetodo(ingresosOk)
+    : { efectivo: Number(efectivo) || 0, yape: Number(yape) || 0, tarjeta: Number(tarjeta) || 0, transferencia: Number(transferencia) || 0 };
 
   const crear = db.transaction(() => {
     const r = db.prepare(`
       INSERT INTO cierres_caja (tienda_id, fecha, usuario_id, efectivo, yape, tarjeta, transferencia, observaciones, estado)
       VALUES (?,?,?,?,?,?,?,?,?)
     `).run(tienda_id, fecha || new Date().toISOString().slice(0, 10), req.user.id,
-           Number(efectivo) || 0, Number(yape) || 0, Number(tarjeta) || 0, Number(transferencia) || 0,
+           tm.efectivo, tm.yape, tm.tarjeta, tm.transferencia,
            observaciones || null, estado || 'entregado');
     const cierreId = r.lastInsertRowid;
+    const insI = db.prepare('INSERT INTO cierre_ingresos (cierre_id, descripcion, cliente, metodo_pago, monto) VALUES (?,?,?,?,?)');
+    for (const i of ingresosOk) insI.run(cierreId, i.descripcion, i.cliente, i.metodo_pago, i.monto);
     const insE = db.prepare('INSERT INTO cierre_egresos (cierre_id, concepto, proveedor, monto) VALUES (?,?,?,?)');
     for (const e of egresosOk) insE.run(cierreId, e.concepto, e.proveedor, e.monto);
     return cierreId;
@@ -125,14 +155,24 @@ router.put('/:id', requireRole('admin', 'vendedor'), (req, res) => {
   }
   const p = { ...cur, ...req.body };
   const egresosOk = normEgresos(req.body.egresos);
+  const tieneLista = Array.isArray(req.body.ingresos);
+  const ingresosOk = normIngresos(req.body.ingresos);
+  // Si se envía el detalle de ventas, recalcula los totales por método desde él
+  const tm = tieneLista
+    ? totalesPorMetodo(ingresosOk)
+    : { efectivo: Number(p.efectivo) || 0, yape: Number(p.yape) || 0, tarjeta: Number(p.tarjeta) || 0, transferencia: Number(p.transferencia) || 0 };
 
   const actualizar = db.transaction(() => {
     db.prepare(`
       UPDATE cierres_caja SET tienda_id=?, fecha=?, efectivo=?, yape=?, tarjeta=?, transferencia=?, observaciones=?, estado=?
       WHERE id=?
-    `).run(p.tienda_id, p.fecha, Number(p.efectivo) || 0, Number(p.yape) || 0,
-           Number(p.tarjeta) || 0, Number(p.transferencia) || 0, p.observaciones || null,
-           p.estado || 'entregado', req.params.id);
+    `).run(p.tienda_id, p.fecha, tm.efectivo, tm.yape, tm.tarjeta, tm.transferencia,
+           p.observaciones || null, p.estado || 'entregado', req.params.id);
+    if (tieneLista) {
+      db.prepare('DELETE FROM cierre_ingresos WHERE cierre_id = ?').run(req.params.id);
+      const insI = db.prepare('INSERT INTO cierre_ingresos (cierre_id, descripcion, cliente, metodo_pago, monto) VALUES (?,?,?,?,?)');
+      for (const i of ingresosOk) insI.run(req.params.id, i.descripcion, i.cliente, i.metodo_pago, i.monto);
+    }
     if (Array.isArray(req.body.egresos)) {
       db.prepare('DELETE FROM cierre_egresos WHERE cierre_id = ?').run(req.params.id);
       const insE = db.prepare('INSERT INTO cierre_egresos (cierre_id, concepto, proveedor, monto) VALUES (?,?,?,?)');

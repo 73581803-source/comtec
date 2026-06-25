@@ -123,7 +123,7 @@
       tienda_id: tiendas[0] ? tiendas[0].id : '',
       fecha: new Date().toISOString().slice(0,10),
       efectivo:0, yape:0, tarjeta:0, transferencia:0,
-      observaciones:'', estado:'entregado', egresos:[],
+      observaciones:'', estado:'entregado', ingresos:[], egresos:[],
     };
     if (id) {
       try { cur = await API.get('/api/caja/'+id); }
@@ -139,13 +139,13 @@
             <div><label class="field-lbl">Tienda *</label><select id="k-tienda" class="select">${opcTiendas}</select></div>
             <div><label class="field-lbl">Fecha</label><input id="k-fecha" class="input" type="date" value="${cur.fecha}"/></div>
           </div>
-          <div class="form-row">
-            <div><label class="field-lbl">Efectivo (S/)</label><input id="k-efe" class="input money-in" type="number" step="0.01" value="${cur.efectivo}"/></div>
-            <div><label class="field-lbl">Yape (S/)</label><input id="k-yape" class="input money-in" type="number" step="0.01" value="${cur.yape}"/></div>
-          </div>
-          <div class="form-row">
-            <div><label class="field-lbl">Tarjeta (S/)</label><input id="k-tar" class="input money-in" type="number" step="0.01" value="${cur.tarjeta}"/></div>
-            <div><label class="field-lbl">Transferencia (S/)</label><input id="k-tra" class="input money-in" type="number" step="0.01" value="${cur.transferencia}"/></div>
+          <div style="border-top:1px dashed #e3e7f1;margin-top:2px;padding-top:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <label class="field-lbl" style="margin:0">Ventas del día (cada producto/cliente)</label>
+              <button type="button" class="btn btn-ghost btn-icon" id="k-add-in">+ Agregar venta</button>
+            </div>
+            <div id="k-ingresos"></div>
+            <div id="k-metodos" style="display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:#475569;margin-top:6px"></div>
           </div>
 
           <div style="border-top:1px dashed #e3e7f1;margin-top:6px;padding-top:12px">
@@ -165,7 +165,26 @@
         </div>`,
       footer: `<button class="btn btn-ghost" id="btn-x">Cancelar</button><button class="btn btn-primary" id="btn-ok">Guardar</button>`,
       onMount: (wrap, close) => {
+        const inCont = wrap.querySelector('#k-ingresos');
         const egCont = wrap.querySelector('#k-egresos');
+        const METODOS = [['efectivo','Efectivo'],['yape','Yape'],['tarjeta','Tarjeta'],['transferencia','Transferencia']];
+
+        function addVenta(v = {}) {
+          const row = document.createElement('div');
+          row.className = 'in-row';
+          row.style.cssText = 'display:grid;grid-template-columns:1.5fr 1.1fr 1fr 90px 32px;gap:8px;margin-bottom:8px;align-items:center';
+          row.innerHTML = `
+            <input class="input in-desc" placeholder="Producto / qué se vendió" value="${esc(v.descripcion)}"/>
+            <input class="input in-cliente" placeholder="Cliente (opcional)" value="${esc(v.cliente)}"/>
+            <select class="select in-metodo">${METODOS.map(([k,l]) => `<option value="${k}" ${v.metodo_pago===k?'selected':''}>${l}</option>`).join('')}</select>
+            <input class="input in-monto money-in" type="number" step="0.01" placeholder="0.00" value="${v.monto != null ? v.monto : ''}" style="text-align:right"/>
+            <button type="button" class="btn btn-danger btn-icon in-del" style="padding:6px 9px">×</button>`;
+          inCont.appendChild(row);
+          row.querySelector('.in-del').onclick = () => { row.remove(); recalc(); };
+          row.querySelector('.in-monto').addEventListener('input', recalc);
+          row.querySelector('.in-metodo').addEventListener('change', recalc);
+          recalc();
+        }
 
         function addEgreso(eg = {}) {
           const row = document.createElement('div');
@@ -183,20 +202,39 @@
         }
 
         function recalc() {
-          const num = sel => +wrap.querySelector(sel).value || 0;
-          const ingresos = num('#k-efe') + num('#k-yape') + num('#k-tar') + num('#k-tra');
+          const tm = { efectivo:0, yape:0, tarjeta:0, transferencia:0 };
+          wrap.querySelectorAll('.in-row').forEach(row => {
+            const m = row.querySelector('.in-metodo').value;
+            tm[m] = (tm[m] || 0) + (+row.querySelector('.in-monto').value || 0);
+          });
+          const ingresos = tm.efectivo + tm.yape + tm.tarjeta + tm.transferencia;
           let egresos = 0;
           wrap.querySelectorAll('.eg-monto').forEach(i => egresos += +i.value || 0);
+          wrap.querySelector('#k-metodos').innerHTML = METODOS
+            .map(([k,l]) => `<span>${l}: <strong>${fmt.money(tm[k])}</strong></span>`).join('')
+            + `<span style="color:#1e329c">Total ventas: <strong>${fmt.money(ingresos)}</strong></span>`;
           wrap.querySelector('#k-total').textContent = fmt.money(ingresos - egresos);
         }
 
-        wrap.querySelectorAll('#k-efe,#k-yape,#k-tar,#k-tra').forEach(i => i.addEventListener('input', recalc));
+        wrap.querySelector('#k-add-in').onclick = () => addVenta();
         wrap.querySelector('#k-add-eg').onclick = () => addEgreso();
-        (cur.egresos || []).forEach(addEgreso);
+        (cur.ingresos || []).forEach(addVenta);
+        (cur.egresos  || []).forEach(addEgreso);
+        if (!(cur.ingresos || []).length) addVenta(); // arranca con una fila vacía
         recalc();
 
         wrap.querySelector('#btn-x').onclick = close;
         wrap.querySelector('#btn-ok').onclick = async () => {
+          const ingresos = [];
+          wrap.querySelectorAll('.in-row').forEach(row => {
+            const descripcion = row.querySelector('.in-desc').value.trim();
+            const monto = +row.querySelector('.in-monto').value || 0;
+            if (descripcion && monto > 0) ingresos.push({
+              descripcion, monto,
+              cliente: row.querySelector('.in-cliente').value.trim() || null,
+              metodo_pago: row.querySelector('.in-metodo').value,
+            });
+          });
           const egresos = [];
           wrap.querySelectorAll('.eg-row').forEach(row => {
             const concepto = row.querySelector('.eg-concepto').value.trim();
@@ -209,15 +247,13 @@
           const data = {
             tienda_id: +wrap.querySelector('#k-tienda').value,
             fecha: wrap.querySelector('#k-fecha').value,
-            efectivo: +wrap.querySelector('#k-efe').value || 0,
-            yape: +wrap.querySelector('#k-yape').value || 0,
-            tarjeta: +wrap.querySelector('#k-tar').value || 0,
-            transferencia: +wrap.querySelector('#k-tra').value || 0,
             observaciones: wrap.querySelector('#k-obs').value.trim() || null,
             estado: cur.estado || 'entregado',
+            ingresos,
             egresos,
           };
           if (!data.tienda_id) return toast('Selecciona una tienda','error');
+          if (!ingresos.length) return toast('Agrega al menos una venta','error');
           try {
             if (id) await API.put('/api/caja/'+id, data);
             else    await API.post('/api/caja', data);

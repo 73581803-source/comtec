@@ -196,9 +196,11 @@ const insertCierre = db.prepare(`
   INSERT INTO cierres_caja (tienda_id, fecha, usuario_id, efectivo, yape, tarjeta, transferencia, observaciones, estado)
   VALUES (?,?,?,?,?,?,?,?,?)
 `);
+const insertIngreso = db.prepare('INSERT INTO cierre_ingresos (cierre_id, descripcion, cliente, metodo_pago, monto) VALUES (?,?,?,?,?)');
 const insertEgreso = db.prepare('INSERT INTO cierre_egresos (cierre_id, concepto, proveedor, monto) VALUES (?,?,?,?)');
 const responsables = [userIds['maria@comtec.pe'], userIds['luz@comtec.pe']];
 const proveedores = ['Distribuidora Tech SAC', 'Importaciones Lima', 'Mayorista Wilson', 'ProveeStock EIRL'];
+const cierreMetodos = ['efectivo', 'yape', 'tarjeta', 'transferencia'];
 
 for (let d = 15; d >= 1; d--) {
   for (const tid of tiendaIds) {
@@ -206,12 +208,23 @@ for (let d = 15; d >= 1; d--) {
     const fecha = new Date(today);
     fecha.setDate(today.getDate() - d);
     const fechaIso = fecha.toISOString().slice(0, 10);
-    const efectivo = 200 + Math.floor(Math.random() * 1400);
-    const yape = Math.floor(Math.random() * 900);
-    const tarjeta = Math.random() < 0.5 ? Math.floor(Math.random() * 600) : 0;
-    const transferencia = Math.random() < 0.3 ? Math.floor(Math.random() * 500) : 0;
+
+    // Ventas del día (cada producto/cliente con su monto y forma de pago)
+    const tm = { efectivo: 0, yape: 0, tarjeta: 0, transferencia: 0 };
+    const ventas = [];
+    const nVentas = 2 + Math.floor(Math.random() * 5);
+    for (let v = 0; v < nVentas; v++) {
+      const prod = productos[Math.floor(Math.random() * productos.length)];
+      const cliente = clientes[Math.floor(Math.random() * clientes.length)][0];
+      const metodo = cierreMetodos[Math.floor(Math.random() * cierreMetodos.length)];
+      const monto = prod.pv + Math.floor(Math.random() * 100);
+      tm[metodo] += monto;
+      ventas.push({ descripcion: prod.nombre, cliente, metodo, monto });
+    }
     const r = insertCierre.run(tid, fechaIso, responsables[Math.floor(Math.random() * responsables.length)],
-      efectivo, yape, tarjeta, transferencia, null, 'entregado');
+      tm.efectivo, tm.yape, tm.tarjeta, tm.transferencia, null, 'entregado');
+    for (const v of ventas) insertIngreso.run(r.lastInsertRowid, v.descripcion, v.cliente, v.metodo, v.monto);
+
     // 0 a 2 pagos a proveedor
     const nEg = Math.floor(Math.random() * 3);
     for (let k = 0; k < nEg; k++) {
